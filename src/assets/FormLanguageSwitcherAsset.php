@@ -7,7 +7,7 @@ use yii\web\AssetBundle;
 class FormLanguageSwitcherAsset extends AssetBundle
 {
 
-    public $sourcePath = __DIR__ . '/source/form-switcher';
+    public $sourcePath = '@vendor/yeesoft/yii2-multilingual/src/assets/source/form-switcher';
     public $js = [
         'js/form-switcher.js',
     ];
@@ -18,5 +18,5 @@ class FormLanguageSwitcherAsset extends AssetBundle
         'yii\web\JqueryAsset',
         'yii\web\YiiAsset',
     ];
-
+    
 }

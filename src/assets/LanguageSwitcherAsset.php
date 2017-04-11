@@ -7,7 +7,7 @@ use yii\web\AssetBundle;
 class LanguageSwitcherAsset extends AssetBundle
 {
 
-    public $sourcePath = __DIR__ . '/source/switcher';
+    public $sourcePath = '@vendor/yeesoft/yii2-multilingual/src/assets/source/switcher';
     public $css = [
         'css/switcher.css',
     ];
