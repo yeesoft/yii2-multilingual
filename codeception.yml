@@ -16,9 +16,9 @@ modules:
             configFile: 'tests/_support/config/test.php'
             cleanup: false
         Db:
-            dsn: 'mysql:host=localhost;dbname=testdb'
+            dsn: 'mysql:host=localhost;dbname=multilingual'
             user: 'root'
-            password: 'qwerty'
+            password: ''
             dump: 'tests/_support/data/dump.sql'
             populate: true
             cleanup: false
