@@ -8,9 +8,9 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=testdb',
+            'dsn' => 'mysql:host=localhost;dbname=multilingual_test',
             'username' => 'root',
-            'password' => 'qwerty',
+            'password' => '',
             'charset' => 'utf8',
         ],
         'mailer' => [
