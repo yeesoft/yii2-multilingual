@@ -79,4 +79,14 @@ use yeesoft\multilingual\widgets\ActiveForm;
 `yeesoft\multilingual\widgets\ActiveForm` form looks and bahaves in the same way as `\yii\bootstrap\ActiveForm`.
 The only difference is using of language switcher `echo $form->languageSwitcher($model)`. This code render widget to switch between languages.
 But this is optional. If there is no language switcher all multilingual fields will be rendered one by one.
+
+- Form With Switcher:
+
+  ![Form With Switcher](https://raw.githubusercontent.com/yeesoft/yii2-multilingual/master/docs/images/form-with-switcher.png)
+
+
+- Form Without Switcher:
+
+  ![Form Without Switcher](https://raw.githubusercontent.com/yeesoft/yii2-multilingual/master/docs/images/form-without-switcher.png)
+
  
