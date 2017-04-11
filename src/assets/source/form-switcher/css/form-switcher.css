@@ -1,0 +1,8 @@
+.form-language-switcher {
+    float: right;
+}
+.form-language-switcher > li > a {
+    font-size: 0.8em !important;
+    padding: 1px 7px !important;
+    border-radius: 2px !important;
+}

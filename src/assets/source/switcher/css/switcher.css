@@ -1,0 +1,19 @@
+.navbar-static-top .language-switcher, .navbar-fixed-top .language-switcher {
+    padding-top: 15px;
+}
+
+.language-switcher-pills ul li a {
+    padding: 1px 5px;
+}
+
+.language-switcher-links ul {
+    display: inline-flex; 
+    list-style: none;
+}
+.language-switcher-links ul li{
+    margin-right: 10px;
+}
+.language-switcher-links ul li a{
+    text-decoration: none;
+}
+
