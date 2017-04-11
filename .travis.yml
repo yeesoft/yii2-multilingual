@@ -19,8 +19,9 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
-  - mysql -u root -e "CREATE DATABASE IF NOT EXISTS test;"
-  - mysql -u root -e "GRANT ALL ON test.* TO 'root'@'127.0.0.1';"
+  - mysql -u root -e "CREATE DATABASE IF NOT EXISTS multilingual;"
+  - mysql -u root -e "CREATE USER 'multilingual'@'localhost' IDENTIFIED BY 'multilingual';"
+  - mysql -u root -e "GRANT ALL ON multilingual.* TO 'multilingual'@'localhost';"
 
 install:
   - travis_retry composer self-update && composer --version
