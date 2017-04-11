@@ -95,7 +95,7 @@ class MultilingualBehaviorTest extends \Codeception\Test\Unit
     public function testUpdatePost()
     {
         $post = Post::find()->multilingual()->where(['id' => 2])->one();
-        $this->assertInstanceOf(Post::class, $post);
+        $this->assertInstanceOf(Post::className(), $post);
 
         $post->setAttributes([
             'slug' => 'updated_post',

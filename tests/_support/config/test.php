@@ -25,7 +25,7 @@ return [
             ]
         ],
         'urlManager' => [
-            'class' => yeesoft\multilingual\web\MultilingualUrlManager::class,
+            'class' => yeesoft\multilingual\web\MultilingualUrlManager::className(),
             'showScriptName' => false,
             'enablePrettyUrl' => true,
             'rules' => [
