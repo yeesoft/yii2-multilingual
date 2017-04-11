@@ -8,7 +8,7 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=multilingual_test',
+            'dsn' => 'mysql:host=127.0.0.1;dbname=test',
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8',
