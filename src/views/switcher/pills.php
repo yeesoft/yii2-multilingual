@@ -18,7 +18,6 @@ LanguageSwitcherAsset::register($this);
                     <a><?= $title ?></a>
                 </li>
             <?php else: ?>
-                <?php $link = Yii::$app->urlManager->createUrl(ArrayHelper::merge($params, [$url, 'language' => $key])); ?>
                 <li>
                     <?= Html::a($title, ArrayHelper::merge($params, [$url, 'language' => $key, 'forceLanguageParam' => true])) ?>
                 </li>
