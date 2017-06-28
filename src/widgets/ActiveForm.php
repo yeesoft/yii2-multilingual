@@ -26,10 +26,11 @@ class ActiveForm extends \yii\bootstrap\ActiveForm
     {
         $fields = [];
 
-        $isMultilingualOption = (isset($options['multilingual']) && $options['multilingual']);
-        $isMultilingualAttribute = ($model->getBehavior('multilingual') && $model->hasMultilingualAttribute($attribute));
+        $isNonMultilingual = (isset($options['multilingual']) && $options['multilingual'] === false);
+        $isFieldMultilingual = (isset($options['multilingual']) && $options['multilingual']);
+        $isAttributeMultilingual = ($model->getBehavior('multilingual') && $model->hasMultilingualAttribute($attribute));
 
-        if ($isMultilingualOption || $isMultilingualAttribute) {
+        if (!$isNonMultilingual && ($isFieldMultilingual || $isAttributeMultilingual)) {
             $languages = array_keys($model->getBehavior('multilingual')->languages);
             
             foreach ($languages as $language) {
