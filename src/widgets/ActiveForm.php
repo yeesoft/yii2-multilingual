@@ -58,9 +58,7 @@ class ActiveForm extends \yii\bootstrap\ActiveForm
      */
     public function languageSwitcher($model, $view = null)
     {
-        if ($model->getBehavior('multilingual')) {
-            $languages = $model->getBehavior('multilingual')->languages;
-        }
+        $languages = ($model->getBehavior('multilingual')) ? $languages = $model->getBehavior('multilingual')->languages : [];
         
         return FormLanguageSwitcher::widget(['languages' => $languages, 'view' => $view]);
     }
