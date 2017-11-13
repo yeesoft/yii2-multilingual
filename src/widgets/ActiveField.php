@@ -18,6 +18,13 @@ class ActiveField extends \yii\bootstrap\ActiveField
      * @var string 
      */
     public $language;
+    
+    /**
+     * List of languages of the field. For static multilingual fields.
+     * 
+     * @var string 
+     */
+    public $languages;
 
     /**
      * Whether is field multilingual. Use this option to mark an attribute as multilingual

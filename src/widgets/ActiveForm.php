@@ -2,8 +2,9 @@
 
 namespace yeesoft\multilingual\widgets;
 
-use yeesoft\multilingual\containers\MultilingualFieldContainer;
+use Yii;
 use yeesoft\multilingual\widgets\FormLanguageSwitcher;
+use yeesoft\multilingual\containers\MultilingualFieldContainer;
 
 /**
  * Multilingual ActiveForm
@@ -26,12 +27,16 @@ class ActiveForm extends \yii\bootstrap\ActiveForm
     {
         $fields = [];
 
-        $isNonMultilingual = (isset($options['multilingual']) && $options['multilingual'] === false);
-        $isFieldMultilingual = (isset($options['multilingual']) && $options['multilingual']);
-        $isAttributeMultilingual = ($model->getBehavior('multilingual') && $model->hasMultilingualAttribute($attribute));
+        $notMultilingual = (isset($options['multilingual']) && $options['multilingual'] === false);
+        $multilingualField = (isset($options['multilingual']) && $options['multilingual']);
+        $multilingualAttribute = ($model->getBehavior('multilingual') && $model->hasMultilingualAttribute($attribute));
 
-        if (!$isNonMultilingual && ($isFieldMultilingual || $isAttributeMultilingual)) {
-            $languages = array_keys($model->getBehavior('multilingual')->languages);
+        if (!$notMultilingual && ($multilingualField || $multilingualAttribute)) {
+            if($multilingualAttribute){
+                $languages = array_keys($model->getBehavior('multilingual')->languages);
+            } else {
+                $languages = (!empty($options['languages'])) ? array_keys($options['languages']) : [Yii::$app->language];
+            }
             
             foreach ($languages as $language) {
                 $fields[] = parent::field($model, $attribute, array_merge($options, ['language' => $language]));
@@ -53,6 +58,10 @@ class ActiveForm extends \yii\bootstrap\ActiveForm
      */
     public function languageSwitcher($model, $view = null)
     {
-        return FormLanguageSwitcher::widget(['model' => $model, 'view' => $view]);
+        if ($model->getBehavior('multilingual')) {
+            $languages = $model->getBehavior('multilingual')->languages;
+        }
+        
+        return FormLanguageSwitcher::widget(['languages' => $languages, 'view' => $view]);
     }
 }

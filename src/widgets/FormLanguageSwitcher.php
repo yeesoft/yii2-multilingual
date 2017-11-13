@@ -11,13 +11,6 @@ class FormLanguageSwitcher extends \yii\base\Widget
 {
 
     /**
-     * Form model.
-     * 
-     * @var \yii\base\Model 
-     */
-    public $model;
-
-    /**
      *
      * @var string view file
      */
@@ -28,7 +21,7 @@ class FormLanguageSwitcher extends \yii\base\Widget
      * 
      * @var array 
      */
-    private $_languages;
+    public $languages;
 
     /**
      *
@@ -40,19 +33,15 @@ class FormLanguageSwitcher extends \yii\base\Widget
     {
         $this->view = $this->view ?: $this->_defaultView;
 
-        if ($this->model->getBehavior('multilingual')) {
-            $this->_languages = $this->model->getBehavior('multilingual')->languages;
-        }
-
         parent::init();
     }
 
     public function run()
     {
-        if ($this->_languages) {
+        if ($this->languages) {
             return $this->render($this->view, [
                         'language' => Yii::$app->language,
-                        'languages' => $this->_languages,
+                        'languages' => $this->languages,
             ]);
         }
     }
