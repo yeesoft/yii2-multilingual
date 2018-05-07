@@ -297,7 +297,7 @@ class MultilingualBehavior extends Behavior
                     }
                 }
             }
-        } else {
+        } else if ($owner->getAttribute($this->_ownerPrimaryKey) !== null) {
             if (!$owner->isRelationPopulated('translation')) {
                 $owner->translation;
             }
