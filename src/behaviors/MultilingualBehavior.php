@@ -325,9 +325,6 @@ class MultilingualBehavior extends Behavior
 	 */
 	public function existMultilingualAttributes()
 	{
-		/** @var ActiveRecord $owner */
-		$owner = $this->owner;
-
 		foreach ($this->attributes as $attribute) {
 			if ($this->getMultilingualAttribute($attribute) === null) {
 				return false;
