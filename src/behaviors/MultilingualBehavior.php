@@ -297,9 +297,9 @@ class MultilingualBehavior extends Behavior
                     }
                 }
             }
-        } else if ($this->existMultilingualAttributes()) {
+        } elseif ($this->existMultilingualAttributes()) {
         	return true;
-        } else if ($owner->getAttribute($this->_ownerPrimaryKey) !== null) {
+        } elseif ($owner->getAttribute($this->_ownerPrimaryKey) !== null) {
             if (!$owner->isRelationPopulated('translation')) {
                 $owner->translation;
             }
@@ -325,6 +325,9 @@ class MultilingualBehavior extends Behavior
 	 */
 	public function existMultilingualAttributes()
 	{
+		/** @var ActiveRecord $owner */
+		$owner = $this->owner;
+
 		foreach ($this->attributes as $attribute) {
 			if ($this->getMultilingualAttribute($attribute) === null) {
 				return false;
