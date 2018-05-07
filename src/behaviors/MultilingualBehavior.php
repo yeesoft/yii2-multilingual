@@ -279,7 +279,9 @@ class MultilingualBehavior extends Behavior
 
     /**
      * Handle 'afterFind' event of the owner.
-     */
+     *
+	 * @return bool
+	 */
     public function afterFind()
     {
         /** @var ActiveRecord $owner */
@@ -318,6 +320,8 @@ class MultilingualBehavior extends Behavior
                 $owner->setAttribute($attribute, $this->getMultilingualAttribute($attribute));
             }
         }
+
+        return true;
     }
 
 	/**
