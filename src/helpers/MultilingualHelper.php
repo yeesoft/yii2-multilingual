@@ -8,6 +8,7 @@ use yii\base\InvalidConfigException;
 
 class MultilingualHelper
 {
+	public static $languages;
 
     /**
      * Validates and returns list of languages.
