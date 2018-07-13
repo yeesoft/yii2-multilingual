@@ -95,14 +95,16 @@ class MultilingualUrlManager extends UrlManager
         if ((!Yii::$app->errorHandler->exception || Yii::$app->errorHandler->exception instanceof NotFoundHttpException) && count($this->languages) > 1) {
             // Set language by GET request, session or cookie
             if ($language = Yii::$app->getRequest()->get('language')) {
+	            Yii::$app->language = $this->getLanguageCode($language);
 
-                Yii::$app->language = $this->getLanguageCode($language);
-                Yii::$app->session->set('language', Yii::$app->language);
-                Yii::$app->response->cookies->add(new \yii\web\Cookie([
-                    'name' => 'language',
-                    'value' => Yii::$app->session->get('language'),
-                    'expire' => time() + 31536000 // one year
-                ]));
+	            if (Yii::$app->session->get('language') !== Yii::$app->language) {
+	                Yii::$app->session->set('language', Yii::$app->language);
+	                Yii::$app->response->cookies->add(new \yii\web\Cookie([
+			            'name' => 'language',
+			            'value' => Yii::$app->language,
+			            'expire' => time() + 31536000 // one year
+		            ]));
+	            }
             } elseif ($language = Yii::$app->session->get('language')) {
 
                 Yii::$app->language = $this->getLanguageCode($language);
