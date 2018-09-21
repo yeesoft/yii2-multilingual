@@ -29,6 +29,7 @@ class MultilingualHelper
             . get_class($owner) . ' or in the application parameters');
         }
 
+	    static::$languages = $languages;
         return $languages;
     }
 
