@@ -2,10 +2,10 @@
 
 namespace yeesoft\multilingual\containers;
 
-use yii\base\Object;
+use yii\base\BaseObject;
 use yeesoft\multilingual\helpers\MultilingualHelper;
 
-class MultilingualFieldContainer extends Object
+class MultilingualFieldContainer extends BaseObject
 {
 
     /**
