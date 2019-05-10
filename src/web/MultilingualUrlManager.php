@@ -3,13 +3,13 @@
 namespace yeesoft\multilingual\web;
 
 use Yii;
+use yii\helpers\Url;
 use yii\web\UrlManager;
 use yii\web\Application;
 use yii\web\NotFoundHttpException;
 use yeesoft\multilingual\helpers\MultilingualHelper;
 
-class MultilingualUrlManager extends UrlManager
-{
+class MultilingualUrlManager extends UrlManager {
 
     /**
      * Available languages. It can be a simple array ['en-US', 'es'] or an associative 
@@ -59,6 +59,13 @@ class MultilingualUrlManager extends UrlManager
     public $forceLanguageParam = 'forceLanguageParam';
 
     /**
+     * When url not have language in get params and extract it by Session or Cookie redirect 
+     * example: /controller/action => /lang/controller/action
+     * @var boolean 
+     */
+    public $redirectOnStored = false;
+
+    /**
      * @var string list of languages with applied language redirects.
      */
     protected $_displayLanguages;
@@ -66,8 +73,7 @@ class MultilingualUrlManager extends UrlManager
     /**
      * @inheritdoc
      */
-    public function init()
-    {
+    public function init() {
         parent::init();
 
         $this->languages = MultilingualHelper::getLanguages($this->languages, $this);
@@ -83,8 +89,10 @@ class MultilingualUrlManager extends UrlManager
      * @return bool
      * @throws MethodNotAllowedHttpException|InvalidConfigException when the request method is not allowed.
      */
-    public function beforeAction($event)
-    {
+    public function beforeAction($event) {
+
+
+
         if (!Yii::$app->errorHandler->exception && count($this->languages) > 1) {
 
             // Set language by GET request, session or cookie
@@ -100,10 +108,18 @@ class MultilingualUrlManager extends UrlManager
             } elseif ($language = Yii::$app->session->get('language')) {
 
                 Yii::$app->language = $this->getLanguageCode($language);
+
+                if ($this->redirectOnStored) {
+                    $this->redirecOnStored();
+                }
             } elseif (isset(Yii::$app->request->cookies['language'])) {
 
                 $language = Yii::$app->request->cookies['language']->value;
                 Yii::$app->language = $this->getLanguageCode($language);
+
+                if ($this->redirectOnStored) {
+                    $this->redirecOnStored();
+                }
             }
 
             Yii::$app->formatter->locale = Yii::$app->language;
@@ -112,15 +128,21 @@ class MultilingualUrlManager extends UrlManager
         return $event->isValid;
     }
 
+    protected function redirecOnStored() {
+        $params = \Yii::$app->request->get();
+        $urlparam = Url::to(yii\helpers\ArrayHelper::merge(['/' . Yii::$app->controller->id . '/' . \Yii::$app->controller->action->id], $params));
+        Yii::$app->response->redirect($urlparam);
+    }
+
     /**
      * @inheritdoc
      */
-    public function createUrl($params)
-    {
+    public function createUrl($params) {
         $forceLanguage = (isset($params[$this->forceLanguageParam]) && $params[$this->forceLanguageParam]);
         if ($forceLanguage) {
             unset($params[$this->forceLanguageParam]);
         }
+
 
         if (!$forceLanguage && ((isset($params['language']) && $params['language'] === false) || (isset($params[0]) && in_array($params[0], $this->excludedActions)))) {
             unset($params['language']);
@@ -154,8 +176,7 @@ class MultilingualUrlManager extends UrlManager
     /**
      * @return array Returns list of languages with applied language redirects.
      */
-    protected function getDisplayLanguages()
-    {
+    protected function getDisplayLanguages() {
         if (!isset($this->_displayLanguages)) {
             $this->_displayLanguages = MultilingualHelper::getDisplayLanguages($this->languages, $this->languageRedirects);
         }
@@ -169,8 +190,7 @@ class MultilingualUrlManager extends UrlManager
      * @return string
      * @throws NotFoundHttpException
      */
-    protected function getLanguageCode($redirectLanguageCode)
-    {
+    protected function getLanguageCode($redirectLanguageCode) {
         $sourceLanguage = MultilingualHelper::getRedirectedLanguageCode($redirectLanguageCode, $this->languageRedirects);
 
         if (!isset($this->languages[$sourceLanguage])) {
