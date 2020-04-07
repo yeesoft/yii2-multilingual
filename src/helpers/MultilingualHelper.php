@@ -13,7 +13,7 @@ class MultilingualHelper
      * Validates and returns list of languages.
      * 
      * @param array $languages
-     * @param \yii\base\Object $owner
+     * @param \yii\base\BaseObject $owner
      * @return array
      * @throws InvalidConfigException
      */
