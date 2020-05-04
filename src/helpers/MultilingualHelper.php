@@ -105,5 +105,12 @@ class MultilingualHelper
     {
         return $attribute . "_" . Inflector::camel2id(Inflector::id2camel($language), "_");
     }
+    
+    public static function getNameAttributeName($attribute, $language)
+    {
+        $lang = "_" . Inflector::camel2id(Inflector::id2camel($language), "_");
+
+        return sprintf($attribute, $lang);
+    }
 
 }

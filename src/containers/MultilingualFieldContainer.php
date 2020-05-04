@@ -39,12 +39,24 @@ class MultilingualFieldContainer extends BaseObject
             $arguments[1]['options']['id'] = MultilingualHelper::getAttributeName($arguments[1]['options']['id'], $field->language);
         }
 
+        if ($method == 'widget' && isset($arguments[1]['options']['name'])) {
+            $arguments[0]['name'] = MultilingualHelper::getNameAttributeName($arguments[0]['name'], $field->language);
+        }
+
         if (in_array($method, ['textInput', 'textarea', 'radio', 'checkbox', 'fileInput', 'hiddenInput', 'passwordInput']) && isset($arguments[0]['id'])) {
             $arguments[0]['id'] = MultilingualHelper::getAttributeName($arguments[0]['id'], $field->language);
         }
 
+        if (in_array($method, ['textInput', 'textarea', 'radio', 'checkbox', 'fileInput', 'hiddenInput', 'passwordInput']) && isset($arguments[0]['name'])) {
+            $arguments[0]['name'] = MultilingualHelper::getNameAttributeName($arguments[0]['name'], $field->language);
+        }
+
         if (in_array($method, ['input', 'dropDownList', 'listBox', 'radioList', 'checkboxList']) && isset($arguments[1]['id'])) {
             $arguments[1]['id'] = MultilingualHelper::getAttributeName($arguments[1]['id'], $field->language);
+        }
+
+        if (in_array($method, ['input', 'dropDownList', 'listBox', 'radioList', 'checkboxList']) && isset($arguments[1]['name'])) {
+            $arguments[1]['name'] = MultilingualHelper::getNameAttributeName($arguments[1]['name'], $field->language);
         }
 
         return $arguments;

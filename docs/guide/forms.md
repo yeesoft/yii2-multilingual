@@ -80,6 +80,16 @@ use yeesoft\multilingual\widgets\ActiveForm;
 The only difference is using of language switcher `echo $form->languageSwitcher($model)`. This code render widget to switch between languages.
 But this is optional. If there is no language switcher all multilingual fields will be rendered one by one.
 
+**Custom name attribute support**
+To add support for `['name' => 'Model[0][field_name]']` name attribute use `%s` at the end of field name, for eg:
+
+```
+<?= $form->field($model, "unit_and_qty")->textInput([
+    'maxLength' => true,
+    'name' => "Model[$key][field_name%s]",
+]); ?>
+```
+
 - Form With Switcher:
 
   ![Form With Switcher](https://raw.githubusercontent.com/yeesoft/yii2-multilingual/master/docs/images/form-with-switcher.png)
