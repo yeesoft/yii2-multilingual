@@ -5,10 +5,10 @@ namespace yeesoft\multilingual\widgets;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yeesoft\multilingual\helpers\MultilingualHelper;
+use yii\helpers\Url;
 
 class LanguageSwitcher extends \yii\base\Widget
 {
-
     const VIEW_LINKS = 'links';
     const VIEW_PILLS = 'pills';
     const DISPLAY_CODE = 'code';
@@ -73,15 +73,36 @@ class LanguageSwitcher extends \yii\base\Widget
         if (count($this->languages) > 1) {
             $view = isset($this->_reservedViews[$this->view]) ? $this->_reservedViews[$this->view] : $this->view;
             list($route, $params) = Yii::$app->getUrlManager()->parseRequest(Yii::$app->getRequest());
+            /*echo '<pre>';
+            print_r(Yii::$app->getUrlManager()->parseRequest(Yii::$app->getRequest()));*/
+
             $params = ArrayHelper::merge(Yii::$app->getRequest()->get(), $params);
             $url = isset($params['route']) ? $params['route'] : $route;
+	        /*print_r($params);
+	        print_r(MultilingualHelper::getDisplayLanguages($this->languages, $this->languageRedirects));
+			die();*/
 
-            return $this->render($view, [
-                        'url' => $url,
-                        'params' => $params,
-                        'display' => $this->display,
-                        'language' => MultilingualHelper::getDisplayLanguageCode($this->_currentLanguage, $this->languageRedirects),
-                        'languages' => MultilingualHelper::getDisplayLanguages($this->languages, $this->languageRedirects),
+	        $languages = $this->languages;
+	        foreach($languages as $languageCode => $languageTitle) {
+		        $temp = [];
+		        $temp['label'] = $languageTitle;
+		        $homePageMultilingualRoute = Yii::$app->defaultRoute;
+		        if (is_array($homePageMultilingualRoute) && count($homePageMultilingualRoute) >= 2) {
+			        $homePageMultilingualRoute['language'] = $languageCode;
+		        }
+
+		        $temp['url'] = (Yii::$app->controller->route == Yii::$app->errorHandler->errorAction) ?
+			        Url::to($homePageMultilingualRoute) : Url::current(['language' => $languageCode]);
+
+		        echo '<pre>';
+		        print_r(MultilingualHelper::getDisplayLanguageCode(Yii::$app->language, $this->languageRedirects));
+		        die();
+		        $temp['active'] = ($languageCode == MultilingualHelper::getDisplayLanguageCode($this->_currentLanguage, $this->languageRedirects));
+		        $languageItems[] = $temp;
+	        }
+
+	        return $this->render($view, [
+	        	'languages' => $languageItems,
             ]);
         }
     }

@@ -10,6 +10,13 @@ use yeesoft\multilingual\helpers\MultilingualHelper;
 
 class MultilingualUrlManager extends UrlManager
 {
+	/**
+	 * Available languages. It can be a simple array ['en-US', 'es'] or an associative
+	 * array ['en-US' => 'English', 'es' => 'Español'].
+	 *
+	 * @var array
+	 */
+	public $defaultLanguage = 'en';
 
     /**
      * Available languages. It can be a simple array ['en-US', 'es'] or an associative 
@@ -85,18 +92,19 @@ class MultilingualUrlManager extends UrlManager
      */
     public function beforeAction($event)
     {
-        if (!Yii::$app->errorHandler->exception && count($this->languages) > 1) {
-
+        if ((!Yii::$app->errorHandler->exception || Yii::$app->errorHandler->exception instanceof NotFoundHttpException) && count($this->languages) > 1) {
             // Set language by GET request, session or cookie
             if ($language = Yii::$app->getRequest()->get('language')) {
+	            Yii::$app->language = $this->getLanguageCode($language);
 
-                Yii::$app->language = $this->getLanguageCode($language);
-                Yii::$app->session->set('language', Yii::$app->language);
-                Yii::$app->response->cookies->add(new \yii\web\Cookie([
-                    'name' => 'language',
-                    'value' => Yii::$app->session->get('language'),
-                    'expire' => time() + 31536000 // one year
-                ]));
+	            if (Yii::$app->session->get('language') !== Yii::$app->language) {
+	                Yii::$app->session->set('language', Yii::$app->language);
+	                Yii::$app->response->cookies->add(new \yii\web\Cookie([
+			            'name' => 'language',
+			            'value' => Yii::$app->language,
+			            'expire' => time() + 31536000 // one year
+		            ]));
+	            }
             } elseif ($language = Yii::$app->session->get('language')) {
 
                 Yii::$app->language = $this->getLanguageCode($language);
@@ -128,6 +136,7 @@ class MultilingualUrlManager extends UrlManager
         }
 
         if (count($this->languages) > 1) {
+
             $languages = array_keys($this->getDisplayLanguages());
             //remove incorrect language param
             if (isset($params['language']) && !in_array($params['language'], $languages)) {
@@ -148,6 +157,11 @@ class MultilingualUrlManager extends UrlManager
                 $params['language'] = MultilingualHelper::getDisplayLanguageCode(Yii::$app->language, $this->languageRedirects);
             }
         }
+
+	    if ($this->defaultLanguage == $params['language']) {
+		    unset($params['language']);
+	    }
+
         return parent::createUrl($params);
     }
 

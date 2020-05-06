@@ -1,5 +1,5 @@
 {
-    "name": "yeesoft/yii2-multilingual",
+    "name": "igorveremsky/yii2-multilingual",
     "description": "Yii2 Multilingual Module",
     "keywords": ["yii2", "extension", "yii2-multilingual", "multilingual", "i18n"],
     "type": "yii2-extension",

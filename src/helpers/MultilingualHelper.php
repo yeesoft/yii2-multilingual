@@ -8,6 +8,7 @@ use yii\base\InvalidConfigException;
 
 class MultilingualHelper
 {
+	public static $languages;
 
     /**
      * Validates and returns list of languages.
@@ -28,6 +29,7 @@ class MultilingualHelper
             . get_class($owner) . ' or in the application parameters');
         }
 
+	    static::$languages = $languages;
         return $languages;
     }
 
